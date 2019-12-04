@@ -37,14 +37,20 @@
           // console.log(gameSlides);
           for (let row = 0; row < 3; row += 1) {
             for (let col = 0; col < 3; col += 1) {
-              const canvas = gameSlides[col*3 + row].children[0] as HTMLCanvasElement;
-              canvas.width = gameSlides[0].clientWidth;
-              canvas.height = gameSlides[0].clientHeight;
-              console.log('Width:-', canvas.width);
-              console.log('Height:- ', canvas.height);
-              let context = canvas.getContext("2d");
-              context.drawImage(gameImage, col*sourceWidth, row*sourceHeight, sourceWidth, sourceHeight, 0, 0, slideWidth, slideHeight);
-              // context.drawImage(gameImage, col*sourceWidth, row*sourceHeight, canvas.clientWidth, canvas.clientHeight);
+              if (row === 2 && col === 2) {
+                const canvas = gameSlides[col*3 + row].children[0] as HTMLCanvasElement;
+                canvas.width = slideWidth;
+                canvas.height = slideHeight;
+                let context = canvas.getContext("2d");
+                context.fillRect(0, 0, canvas.width, canvas.height);
+              }
+              else {
+                const canvas = gameSlides[col*3 + row].children[0] as HTMLCanvasElement;
+                canvas.width = gameSlides[0].clientWidth;
+                canvas.height = gameSlides[0].clientHeight;
+                let context = canvas.getContext("2d");
+                context.drawImage(gameImage, col*sourceWidth, row*sourceHeight, sourceWidth, sourceHeight, 0, 0, slideWidth, slideHeight);
+              }
             }
           }
         },

@@ -28,19 +28,27 @@
                 // console.log(gameImage.clientHeight);
                 var sourceHeight = Math.floor(gameImage.naturalHeight / 3);
                 var sourceWidth = Math.floor(gameImage.naturalWidth / 3);
-                var slideWidth = Math.floor(gameSlides_1[0].clientWidth) + 1;
-                var slideHeight = Math.floor(gameSlides_1[0].clientHeight) + 1;
+                var slideWidth = Math.floor(gameSlides_1[0].clientWidth);
+                var slideHeight = Math.floor(gameSlides_1[0].clientHeight);
                 // console.log(gameSlides);
                 for (var row = 0; row < 3; row += 1) {
                     for (var col = 0; col < 3; col += 1) {
-                        var canvas = gameSlides_1[col * 3 + row].children[0];
-                        canvas.width = gameSlides_1[0].clientWidth;
-                        canvas.height = gameSlides_1[0].clientHeight;
-                        console.log('Width:-', canvas.width);
-                        console.log('Height:- ', canvas.height);
-                        var context = canvas.getContext("2d");
-                        context.drawImage(gameImage, col * sourceWidth, row * sourceHeight, sourceWidth, sourceHeight, 0, 0, slideWidth, slideHeight);
-                        // context.drawImage(gameImage, col*sourceWidth, row*sourceHeight, canvas.clientWidth, canvas.clientHeight);
+                        if (row === 2 && col === 2) {
+                            var canvas = gameSlides_1[col * 3 + row].children[0];
+                            canvas.width = slideWidth;
+                            canvas.height = slideHeight;
+                            var context = canvas.getContext("2d");
+                            context.fillRect(0, 0, canvas.width, canvas.height);
+                        }
+                        else {
+                            var canvas = gameSlides_1[col * 3 + row].children[0];
+                            canvas.width = gameSlides_1[0].clientWidth;
+                            canvas.height = gameSlides_1[0].clientHeight;
+                            console.log('Width:-', canvas.width);
+                            console.log('Height:- ', canvas.height);
+                            var context = canvas.getContext("2d");
+                            context.drawImage(gameImage, col * sourceWidth, row * sourceHeight, sourceWidth, sourceHeight, 0, 0, slideWidth, slideHeight);
+                        }
                     }
                 }
             }
