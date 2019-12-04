@@ -1,9 +1,7 @@
 #gamebox {
-  display: flex; /* or inline-flex */
-  width: 20vmin;
-  height: 20vmin;
+  display: flex;
   align-items: center;
-  /* right: -50000px; */
+  justify-content: center;
 }
 
 .row {
@@ -23,5 +21,21 @@
   border: 1px solid black;
   display: flex;
   background-color: black;
-  right: 5000px;
+}
+
+.game {
+  left : 240px;
+}
+
+.heading {
+  font-family: 'Abril Fatface', cursive;
+  font-size: 30px;
+  color: red;
+  background-color: black;
+  left : 450px;
+}
+
+.imageselection {
+  font-size: 16px;
+  /* color: red; */
 }
