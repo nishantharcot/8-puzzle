@@ -82,6 +82,16 @@
           view.init();
         },
         loadImage: (e: MouseEvent) => {
+          if (model.Moves > 0) {
+            alert('The current game progress will not be saved');
+          }
+          model.Moves = 0;
+          model.available = neighbours['22'] as HTMLDivElement[];
+          model.emptyColumn = 2;
+          model.emptyRow = 2;
+          counter[0].innerHTML = `
+              Moves:- ${model.Moves}
+            `
           let gameImage = e.target as HTMLImageElement;
           model.currentImageindex = gameImage.getAttribute('index');
           const sourceHeight = Math.floor(gameImage.naturalHeight / 3);
@@ -108,16 +118,15 @@
           }
         },
         shuffle : () => {
+          
         },
         solve : () => {
 
         },
         move : (e: MouseEvent) => {
-
           const canvas = e.target as HTMLCanvasElement;
           const clickedSlide = canvas.parentElement as HTMLDivElement;
           for (let i = 0; i < model.available.length; i++) {
-            // console.log(clickedSlide.parentNode, model.available[i]);
             if (clickedSlide === model.available[i]) {
               model.Moves += 1;
               const row = Number(clickedSlide.getAttribute('row'));

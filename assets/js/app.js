@@ -7,7 +7,7 @@
         var solveButton_1 = document.getElementsByClassName('solve');
         var counter_1 = document.getElementsByClassName('count');
         console.log(counter_1[0]);
-        var neighbours = {
+        var neighbours_1 = {
             // col + row
             '00': [gameSlides_1[1], gameSlides_1[3]],
             '01': [gameSlides_1[0], gameSlides_1[2], gameSlides_1[4]],
@@ -20,8 +20,8 @@
             '22': [gameSlides_1[5], gameSlides_1[7]]
         };
         var model_1 = {
-            available: neighbours['22'],
-            neighbours: neighbours,
+            available: neighbours_1['22'],
+            neighbours: neighbours_1,
             emptyRow: 2,
             emptyColumn: 2,
             currentImageindex: '0',
@@ -75,6 +75,14 @@
                 view_1.init();
             },
             loadImage: function (e) {
+                if (model_1.Moves > 0) {
+                    alert('The current game progress will not be saved');
+                }
+                model_1.Moves = 0;
+                model_1.available = neighbours_1['22'];
+                model_1.emptyColumn = 2;
+                model_1.emptyRow = 2;
+                counter_1[0].innerHTML = "\n              Moves:- " + model_1.Moves + "\n            ";
                 var gameImage = e.target;
                 model_1.currentImageindex = gameImage.getAttribute('index');
                 var sourceHeight = Math.floor(gameImage.naturalHeight / 3);
@@ -108,7 +116,6 @@
                 var canvas = e.target;
                 var clickedSlide = canvas.parentElement;
                 for (var i = 0; i < model_1.available.length; i++) {
-                    // console.log(clickedSlide.parentNode, model.available[i]);
                     if (clickedSlide === model_1.available[i]) {
                         model_1.Moves += 1;
                         var row = Number(clickedSlide.getAttribute('row'));
