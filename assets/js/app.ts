@@ -6,6 +6,8 @@
       const gameSlides = document.getElementsByClassName('slide') as HTMLCollectionOf<HTMLDivElement>;
       const shuffleButton = document.getElementsByClassName('shuffle') as HTMLCollectionOf<HTMLButtonElement>;
       const solveButton = document.getElementsByClassName('solve') as HTMLCollectionOf<HTMLButtonElement>;
+      const counter = document.getElementsByClassName('count') as HTMLCollectionOf<Element>;
+      console.log(counter[0]);
       const neighbours = {
         // col + row
         '00' :  [gameSlides[1], gameSlides[3]],
@@ -24,6 +26,7 @@
         emptyRow : 2,
         emptyColumn : 2,
         currentImageindex : '0',
+        Moves : 0,
       };
       const view = {
         init : () => {
@@ -59,7 +62,9 @@
           const allImages = gameImages[0].children as HTMLCollectionOf<HTMLImageElement>;
           // console.log(model.available.length);
           for (let i = 0; i < model.available.length; i++) {
-            // console.log('Hello!!');
+            counter[0].innerHTML = `
+              Moves:- ${model.Moves}
+            `
             model.available[i].onclick = controller.move;
           }
 
@@ -114,6 +119,7 @@
           for (let i = 0; i < model.available.length; i++) {
             // console.log(clickedSlide.parentNode, model.available[i]);
             if (clickedSlide === model.available[i]) {
+              model.Moves += 1;
               const row = Number(clickedSlide.getAttribute('row'));
               const col = Number(clickedSlide.getAttribute('col'));
               const empty = gameBox.children[model.emptyColumn].children[model.emptyRow] as HTMLDivElement;

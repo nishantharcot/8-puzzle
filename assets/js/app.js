@@ -5,6 +5,8 @@
         var gameSlides_1 = document.getElementsByClassName('slide');
         var shuffleButton_1 = document.getElementsByClassName('shuffle');
         var solveButton_1 = document.getElementsByClassName('solve');
+        var counter_1 = document.getElementsByClassName('count');
+        console.log(counter_1[0]);
         var neighbours = {
             // col + row
             '00': [gameSlides_1[1], gameSlides_1[3]],
@@ -22,7 +24,8 @@
             neighbours: neighbours,
             emptyRow: 2,
             emptyColumn: 2,
-            currentImageindex: '0'
+            currentImageindex: '0',
+            Moves: 0
         };
         var view_1 = {
             init: function () {
@@ -57,7 +60,7 @@
                 var allImages = gameImages_1[0].children;
                 // console.log(model.available.length);
                 for (var i = 0; i < model_1.available.length; i++) {
-                    // console.log('Hello!!');
+                    counter_1[0].innerHTML = "\n              Moves:- " + model_1.Moves + "\n            ";
                     model_1.available[i].onclick = controller_1.move;
                 }
                 for (var index = 0; index < allImages.length; index++) {
@@ -107,10 +110,10 @@
                 for (var i = 0; i < model_1.available.length; i++) {
                     // console.log(clickedSlide.parentNode, model.available[i]);
                     if (clickedSlide === model_1.available[i]) {
+                        model_1.Moves += 1;
                         var row = Number(clickedSlide.getAttribute('row'));
                         var col = Number(clickedSlide.getAttribute('col'));
                         var empty = gameBox_1.children[model_1.emptyColumn].children[model_1.emptyRow];
-                        // console.log(empty);
                         var slideCanvas = clickedSlide.children[0];
                         var slideContext = slideCanvas.getContext('2d');
                         var emptyCanvas = empty.children[0];
