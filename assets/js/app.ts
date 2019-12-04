@@ -29,38 +29,27 @@
         },
         loadImage: (e: MouseEvent) => {
           let gameImage = e.target as HTMLImageElement;
+          // console.log(gameImage.clientHeight);
           const sourceHeight = Math.floor(gameImage.naturalHeight / 3);
           const sourceWidth = Math.floor(gameImage.naturalWidth / 3);
-          const canvas = e.target as HTMLCanvasElement;
-          console.log(gameImage.clientHeight, gameImage.clientWidth);
-          const height = canvas.clientHeight;
-          const width = canvas.clientWidth;
+          const slideWidth = Math.floor(gameSlides[0].clientWidth);
+          const slideHeight = Math.floor(gameSlides[0].clientHeight);
+          // console.log(gameSlides);
           for (let row = 0; row < 3; row += 1) {
             for (let col = 0; col < 3; col += 1) {
-              if (row === 2 && col === 2) {
-                break;
-              }
-              let imageCanvas = gameSlides[row*3 + col].children[0] as HTMLCanvasElement;
-              imageCanvas.width = width;
-              imageCanvas.height = height;
-              let context = imageCanvas.getContext('2d');
-              context.drawImage(
-                canvas, 
-                col*sourceWidth,
-                row*sourceHeight,
-                sourceWidth,
-                sourceHeight,
-                0,
-                0,
-                width, 
-                height
-              );
-              // console.log(imageCanvas);
+              const canvas = gameSlides[col*3 + row].children[0] as HTMLCanvasElement;
+              canvas.width = gameSlides[0].clientWidth;
+              canvas.height = gameSlides[0].clientHeight;
+              console.log('Width:-', canvas.width);
+              console.log('Height:- ', canvas.height);
+              let context = canvas.getContext("2d");
+              context.drawImage(gameImage, col*sourceWidth, row*sourceHeight, sourceWidth, sourceHeight, 0, 0, slideWidth, slideHeight);
+              // context.drawImage(gameImage, col*sourceWidth, row*sourceHeight, canvas.clientWidth, canvas.clientHeight);
             }
           }
-        }
-      };
-    controller.init();
+        },
+      }
+      controller.init();
     }
   }
 )();

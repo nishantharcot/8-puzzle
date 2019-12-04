@@ -25,23 +25,22 @@
             },
             loadImage: function (e) {
                 var gameImage = e.target;
+                // console.log(gameImage.clientHeight);
                 var sourceHeight = Math.floor(gameImage.naturalHeight / 3);
                 var sourceWidth = Math.floor(gameImage.naturalWidth / 3);
-                var canvas = e.target;
-                console.log(gameImage.clientHeight, gameImage.clientWidth);
-                var height = canvas.clientHeight;
-                var width = canvas.clientWidth;
+                var slideWidth = Math.floor(gameSlides_1[0].clientWidth) + 1;
+                var slideHeight = Math.floor(gameSlides_1[0].clientHeight) + 1;
+                // console.log(gameSlides);
                 for (var row = 0; row < 3; row += 1) {
                     for (var col = 0; col < 3; col += 1) {
-                        if (row === 2 && col === 2) {
-                            break;
-                        }
-                        var imageCanvas = gameSlides_1[row * 3 + col].children[0];
-                        imageCanvas.width = width;
-                        imageCanvas.height = height;
-                        var context = imageCanvas.getContext('2d');
-                        context.drawImage(canvas, col * sourceWidth, row * sourceHeight, sourceWidth, sourceHeight, 0, 0, width, height);
-                        // console.log(imageCanvas);
+                        var canvas = gameSlides_1[col * 3 + row].children[0];
+                        canvas.width = gameSlides_1[0].clientWidth;
+                        canvas.height = gameSlides_1[0].clientHeight;
+                        console.log('Width:-', canvas.width);
+                        console.log('Height:- ', canvas.height);
+                        var context = canvas.getContext("2d");
+                        context.drawImage(gameImage, col * sourceWidth, row * sourceHeight, sourceWidth, sourceHeight, 0, 0, slideWidth, slideHeight);
+                        // context.drawImage(gameImage, col*sourceWidth, row*sourceHeight, canvas.clientWidth, canvas.clientHeight);
                     }
                 }
             }
