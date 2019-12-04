@@ -1,0 +1,27 @@
+#gamebox {
+  display: flex; /* or inline-flex */
+  width: 20vmin;
+  height: 20vmin;
+  align-items: center;
+  /* right: -50000px; */
+}
+
+.row {
+  justify-content: center;
+  width: 20vmin;
+  height: 20vmin;
+  align-items: center;
+}
+
+
+
+.slide {
+  width: 20vmin;
+  height: 20vmin;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  display: flex;
+  background-color: aqua;
+  right: 5000px;
+}

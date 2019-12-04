@@ -36,14 +36,55 @@
               Select an Image to Play
             </h2>
             <div class="game-images">
-              <img src="./assets/images/fox.jpeg" alt="fox">
-              <img src="./assets/images/lion.jpeg" alt="lion">
-              <img src="./assets/images/tiger.jpeg" alt="tiger">
+              <a href="#">
+                <img src="./assets/images/fox.jpeg" alt="fox">
+              </a>
+              <a href="#">
+                <img src="./assets/images/lion.jpeg" alt="lion">
+              </a>
+              <a href="#">
+                <img src="./assets/images/tiger.jpeg" alt="tiger">
+              </a>
             </div>
           </div>
-          <div class="column is-three-fifths has-text-centered">
+          <div class="column has-text-centered">
+            <div class="move-counter">
+              Moves :- 1
+            </div>
             <div id="gamebox">
-              
+              <div class="row" id="row-0">
+                <div class="slide" row="0" col="0">
+                  <canvas width="20vmin" height="20vmin"></canvas>
+                </div>
+                <div class="slide" row="0" col="1">
+                  <canvas width="20vmin" height="20vmin"></canvas>
+                </div>
+                <div class="slide" row="0" col="2">
+                  <canvas width="20vmin" height="20vmin"></canvas>
+                </div>
+              </div>
+              <div class="row" id="row-1">
+                <div class="slide" row="1" col="0">
+                  <canvas width="20vmin" height="20vmin"></canvas>
+                </div>
+                <div class="slide" row="1" col="1">
+                  <canvas width="20vmin" height="20vmin"></canvas>     
+                </div>
+                <div class="slide" row="1" col="2">
+                  <canvas width="20vmin" height="20vmin"></canvas>
+                </div>
+              </div>
+              <div class="row" id="row-2">
+                <div class="slide" row="2" col="0">
+                  <canvas width="20vmin" height="20vmin"></canvas>
+                </div>
+                <div class="slide" row="2" col="1">
+                  <canvas width="20vmin" height="20vmin"></canvas>
+                </div>
+                <div class="slide" row="2" col="2">
+                  <canvas width="20vmin" height="20vmin"></canvas>
+                </div>
+              </div>
             </div>
           </div>
           <div class="column is-one-fifth">
@@ -57,5 +98,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <script src="./assets/js/app.js"></script>
 </body>
 </html>
