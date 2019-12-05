@@ -7,7 +7,6 @@
       const shuffleButton = document.getElementsByClassName('shuffle') as HTMLCollectionOf<HTMLButtonElement>;
       const solveButton = document.getElementsByClassName('solve') as HTMLCollectionOf<HTMLButtonElement>;
       const counter = document.getElementsByClassName('count') as HTMLCollectionOf<Element>;
-      console.log(counter[0]);
       const neighbours = {
         // col + row
         '00' :  [gameSlides[1], gameSlides[3]],
@@ -60,7 +59,6 @@
         },
         render : () => {
           const allImages = gameImages[0].children as HTMLCollectionOf<HTMLImageElement>;
-          // console.log(model.available.length);
           for (let i = 0; i < model.available.length; i++) {
             counter[0].innerHTML = `
               Moves:- ${model.Moves}
@@ -72,9 +70,21 @@
             allImages[index].onclick = controller.loadImage;
           }
 
-          shuffleButton[0].onclick = controller.shuffle;
+          // shuffleButton[0].onclick = controller.shuffle;
+          shuffleButton[0].onclick = () => {
+            let numberOfShuffles = 10 + Math.floor(Math.random() * 30);
+            const shuffleContoller = () => {
+              setTimeout(() => {
+                numberOfShuffles -= 1;
+                if (numberOfShuffles) {
+                  controller.shuffle();
+                  shuffleContoller();
+                }
+              }, 200);
+            };
+            shuffleContoller();
+          };
           solveButton[0].onclick = controller.shuffle;
-
         }
       };
       const controller = {
@@ -118,17 +128,27 @@
           }
         },
         shuffle : () => {
-          
+          const slide = model.available[Math.floor(Math.random() * model.available.length)];
+          const canvas = slide.children[0] as HTMLCanvasElement;
+          canvas.click();
         },
         solve : () => {
 
         },
         move : (e: MouseEvent) => {
+          if (e.isTrusted === true) {
+            model.Moves += 1;
+          }
+          // console.log(e);
+          // model.available[i] class ="slide"
           const canvas = e.target as HTMLCanvasElement;
+          const divSlide = e.target as HTMLDivElement;
           const clickedSlide = canvas.parentElement as HTMLDivElement;
           for (let i = 0; i < model.available.length; i++) {
+            // console.log(clickedSlide, model.available[i]);
             if (clickedSlide === model.available[i]) {
-              model.Moves += 1;
+              // console.log(model.available[i], divSlide);
+              // model.Moves += 1;
               const row = Number(clickedSlide.getAttribute('row'));
               const col = Number(clickedSlide.getAttribute('col'));
               const empty = gameBox.children[model.emptyColumn].children[model.emptyRow] as HTMLDivElement;

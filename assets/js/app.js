@@ -6,7 +6,6 @@
         var shuffleButton_1 = document.getElementsByClassName('shuffle');
         var solveButton_1 = document.getElementsByClassName('solve');
         var counter_1 = document.getElementsByClassName('count');
-        console.log(counter_1[0]);
         var neighbours_1 = {
             // col + row
             '00': [gameSlides_1[1], gameSlides_1[3]],
@@ -58,7 +57,6 @@
             },
             render: function () {
                 var allImages = gameImages_1[0].children;
-                // console.log(model.available.length);
                 for (var i = 0; i < model_1.available.length; i++) {
                     counter_1[0].innerHTML = "\n              Moves:- " + model_1.Moves + "\n            ";
                     model_1.available[i].onclick = controller_1.move;
@@ -66,7 +64,20 @@
                 for (var index = 0; index < allImages.length; index++) {
                     allImages[index].onclick = controller_1.loadImage;
                 }
-                shuffleButton_1[0].onclick = controller_1.shuffle;
+                // shuffleButton[0].onclick = controller.shuffle;
+                shuffleButton_1[0].onclick = function () {
+                    var numberOfShuffles = 10 + Math.floor(Math.random() * 30);
+                    var shuffleContoller = function () {
+                        setTimeout(function () {
+                            numberOfShuffles -= 1;
+                            if (numberOfShuffles) {
+                                controller_1.shuffle();
+                                shuffleContoller();
+                            }
+                        }, 200);
+                    };
+                    shuffleContoller();
+                };
                 solveButton_1[0].onclick = controller_1.shuffle;
             }
         };
@@ -109,15 +120,26 @@
                 }
             },
             shuffle: function () {
+                var slide = model_1.available[Math.floor(Math.random() * model_1.available.length)];
+                var canvas = slide.children[0];
+                canvas.click();
             },
             solve: function () {
             },
             move: function (e) {
+                if (e.isTrusted === true) {
+                    model_1.Moves += 1;
+                }
+                // console.log(e);
+                // model.available[i] class ="slide"
                 var canvas = e.target;
+                var divSlide = e.target;
                 var clickedSlide = canvas.parentElement;
                 for (var i = 0; i < model_1.available.length; i++) {
+                    // console.log(clickedSlide, model.available[i]);
                     if (clickedSlide === model_1.available[i]) {
-                        model_1.Moves += 1;
+                        // console.log(model.available[i], divSlide);
+                        // model.Moves += 1;
                         var row = Number(clickedSlide.getAttribute('row'));
                         var col = Number(clickedSlide.getAttribute('col'));
                         var empty = gameBox_1.children[model_1.emptyColumn].children[model_1.emptyRow];
