@@ -9,6 +9,7 @@
   width: 20vmin;
   height: 20vmin;
   align-items: center;
+  flex-direction: row;
 }
 
 
@@ -21,6 +22,7 @@
   border: 1px solid black;
   display: flex;
   background-color: black;
+  flex-direction: row;
 }
 
 .game {

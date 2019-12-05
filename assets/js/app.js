@@ -24,7 +24,11 @@
             emptyRow: 2,
             emptyColumn: 2,
             currentImageindex: '0',
-            Moves: 0
+            Moves: 0,
+            OriginalSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            OriginalSequenceSimpleForm: [[0, 1, 2], [3, 4, 5], [6, 7, 8]],
+            ProblemSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            ProblemSequenceSimpleForm: []
         };
         var view_1 = {
             init: function () {
@@ -35,8 +39,8 @@
                 var sourceWidth = Math.floor(startImage.naturalWidth / 3);
                 var slideWidth = Math.floor(gameSlides_1[0].clientWidth);
                 var slideHeight = Math.floor(gameSlides_1[0].clientHeight);
-                for (var row = 0; row < 3; row += 1) {
-                    for (var col = 0; col < 3; col += 1) {
+                for (var col = 0; col < 3; col += 1) {
+                    for (var row = 0; row < 3; row += 1) {
                         if (row === 2 && col === 2) {
                             var canvas = gameSlides_1[col * 3 + row].children[0];
                             canvas.width = slideWidth;
@@ -66,7 +70,7 @@
                 }
                 // shuffleButton[0].onclick = controller.shuffle;
                 shuffleButton_1[0].onclick = function () {
-                    var numberOfShuffles = 10 + Math.floor(Math.random() * 30);
+                    var numberOfShuffles = 5 + Math.floor(Math.random() * 30);
                     var shuffleContoller = function () {
                         setTimeout(function () {
                             numberOfShuffles -= 1;
@@ -74,11 +78,26 @@
                                 controller_1.shuffle();
                                 shuffleContoller();
                             }
-                        }, 200);
+                            if (numberOfShuffles === 0) {
+                                model_1.ProblemSequenceSimpleForm = [];
+                                for (var i = 0; i < 3; i++) {
+                                    var temp = [];
+                                    for (var j = 0; j < 3; j++) {
+                                        temp.push(model_1.ProblemSequence[3 * i + j]);
+                                    }
+                                    model_1.ProblemSequenceSimpleForm.push(temp);
+                                }
+                                console.log(model_1.ProblemSequence);
+                                console.log(model_1.ProblemSequenceSimpleForm);
+                            }
+                        }, 100);
                     };
                     shuffleContoller();
                 };
-                solveButton_1[0].onclick = controller_1.shuffle;
+                solveButton_1[0].onclick = function () {
+                    console.log(model_1.emptyRow, model_1.emptyColumn);
+                    controller_1.solve(model_1.ProblemSequenceSimpleForm, model_1.emptyRow, model_1.emptyColumn, model_1.OriginalSequenceSimpleForm);
+                };
             }
         };
         var controller_1 = {
@@ -89,6 +108,7 @@
                 if (model_1.Moves > 0) {
                     alert('The current game progress will not be saved');
                 }
+                model_1.OriginalSequence = [];
                 model_1.Moves = 0;
                 model_1.available = neighbours_1['22'];
                 model_1.emptyColumn = 2;
@@ -100,10 +120,11 @@
                 var sourceWidth = Math.floor(gameImage.naturalWidth / 3);
                 var slideWidth = Math.floor(gameSlides_1[0].clientWidth);
                 var slideHeight = Math.floor(gameSlides_1[0].clientHeight);
-                for (var row = 0; row < 3; row += 1) {
-                    for (var col = 0; col < 3; col += 1) {
+                for (var col = 0; col < 3; col += 1) {
+                    for (var row = 0; row < 3; row += 1) {
                         if (row === 2 && col === 2) {
                             var canvas = gameSlides_1[col * 3 + row].children[0];
+                            model_1.OriginalSequence.push(col * 3 + row);
                             canvas.width = slideWidth;
                             canvas.height = slideHeight;
                             var context = canvas.getContext("2d");
@@ -111,6 +132,9 @@
                         }
                         else {
                             var canvas = gameSlides_1[col * 3 + row].children[0];
+                            var rowOfSlide = canvas.parentElement.getAttribute('row');
+                            var colOfSlide = canvas.parentElement.getAttribute('col');
+                            model_1.OriginalSequence.push(col * 3 + row);
                             canvas.width = gameSlides_1[0].clientWidth;
                             canvas.height = gameSlides_1[0].clientHeight;
                             var context = canvas.getContext("2d");
@@ -121,28 +145,33 @@
             },
             shuffle: function () {
                 var slide = model_1.available[Math.floor(Math.random() * model_1.available.length)];
+                var row = slide.getAttribute('row');
+                var col = slide.getAttribute('col');
                 var canvas = slide.children[0];
                 canvas.click();
             },
-            solve: function () {
+            solve: function (initial, row, col, final) {
             },
             move: function (e) {
-                if (e.isTrusted === true) {
-                    model_1.Moves += 1;
-                }
-                // console.log(e);
                 // model.available[i] class ="slide"
+                model_1.ProblemSequenceSimpleForm = [];
                 var canvas = e.target;
                 var divSlide = e.target;
                 var clickedSlide = canvas.parentElement;
                 for (var i = 0; i < model_1.available.length; i++) {
-                    // console.log(clickedSlide, model.available[i]);
                     if (clickedSlide === model_1.available[i]) {
-                        // console.log(model.available[i], divSlide);
                         // model.Moves += 1;
+                        if (e.isTrusted === true) {
+                            model_1.Moves += 1;
+                        }
                         var row = Number(clickedSlide.getAttribute('row'));
                         var col = Number(clickedSlide.getAttribute('col'));
                         var empty = gameBox_1.children[model_1.emptyColumn].children[model_1.emptyRow];
+                        var clickedIndex = 3 * row + col;
+                        var emptyIndex = 3 * model_1.emptyRow + model_1.emptyColumn;
+                        var tempIndex = model_1.ProblemSequence[emptyIndex];
+                        model_1.ProblemSequence[emptyIndex] = model_1.ProblemSequence[clickedIndex];
+                        model_1.ProblemSequence[clickedIndex] = tempIndex;
                         var slideCanvas = clickedSlide.children[0];
                         var slideContext = slideCanvas.getContext('2d');
                         var emptyCanvas = empty.children[0];
@@ -159,6 +188,15 @@
                         var req = '';
                         req = String(model_1.emptyColumn) + String(model_1.emptyRow);
                         model_1.available = model_1.neighbours[req];
+                        for (var i_1 = 0; i_1 < 3; i_1++) {
+                            var temp = [];
+                            for (var j = 0; j < 3; j++) {
+                                temp.push(model_1.ProblemSequence[3 * i_1 + j]);
+                            }
+                            model_1.ProblemSequenceSimpleForm.push(temp);
+                        }
+                        console.log(model_1.ProblemSequence);
+                        console.log(model_1.ProblemSequenceSimpleForm);
                         view_1.render();
                     }
                 }
