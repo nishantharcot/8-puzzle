@@ -86,7 +86,6 @@
             allImages[index].onclick = controller.loadImage;
           }
 
-          // shuffleButton[0].onclick = controller.shuffle;
           shuffleButton[0].onclick = () => {
             let numberOfShuffles = 5 + Math.floor(Math.random() * 30);
             const shuffleContoller = () => {
@@ -105,8 +104,6 @@
                     }
                     model.ProblemSequenceSimpleForm.push(temp);
                   }
-                  console.log(model.ProblemSequence);
-                  console.log(model.ProblemSequenceSimpleForm);
                 }
               }, 100);
             };
@@ -114,7 +111,6 @@
           };
 
           solveButton[0].onclick = () => {
-            // console.log(model.emptyRow, model.emptyColumn);
             controller.solve(model.ProblemSequenceSimpleForm, model.emptyRow, model.emptyColumn, model.OriginalSequenceSimpleForm);
           }
         }
@@ -180,9 +176,14 @@
                 const col = j;
                 console.log(row, col);
                 return liveNode[String(row) + String(col)];
-                break;
               }
             }
+          }
+        },
+        bestMove : (tempQueue, priorityQueue) => {
+          let cost = [];
+          for (let i = 0; i < tempQueue.length; i++) {
+            cost.push(tempQueue[i], priorityQueue[i]);
           }
         },
         solve : (initial, row, col, final) => {
@@ -191,14 +192,13 @@
           const priorityQueue = [];
           for (let i = 0; i < tempQueue.length; i++) {
             const rc = tempQueue[i];
-            console.log(rc[0], rc[1]);
+            // console.log(rc[0], rc[1]);
             priorityQueue.push(model.ProblemSequenceSimpleForm[Number(rc[0])][Number(rc[1])]);
           }
           // controller.findEight();
+          const cost = controller.bestMove(tempQueue, priorityQueue);
+          console.log(tempQueue);
           console.log(priorityQueue);
-          // while (priorityQueue !== null) {
-
-          // }
         },
         move : (e: MouseEvent) => {
           // model.available[i] class ="slide"

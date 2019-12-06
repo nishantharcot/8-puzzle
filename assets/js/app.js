@@ -99,15 +99,12 @@
                                     }
                                     model_1.ProblemSequenceSimpleForm.push(temp);
                                 }
-                                console.log(model_1.ProblemSequence);
-                                console.log(model_1.ProblemSequenceSimpleForm);
                             }
                         }, 100);
                     };
                     shuffleContoller();
                 };
                 solveButton_1[0].onclick = function () {
-                    // console.log(model.emptyRow, model.emptyColumn);
                     controller_1.solve(model_1.ProblemSequenceSimpleForm, model_1.emptyRow, model_1.emptyColumn, model_1.OriginalSequenceSimpleForm);
                 };
             }
@@ -170,10 +167,11 @@
                             var col = j;
                             console.log(row, col);
                             return liveNode_1[String(row) + String(col)];
-                            break;
                         }
                     }
                 }
+            },
+            findCost: function () {
             },
             solve: function (initial, row, col, final) {
                 // Store live nodes
@@ -181,13 +179,13 @@
                 var priorityQueue = [];
                 for (var i = 0; i < tempQueue.length; i++) {
                     var rc = tempQueue[i];
-                    console.log(rc[0], rc[1]);
+                    // console.log(rc[0], rc[1]);
                     priorityQueue.push(model_1.ProblemSequenceSimpleForm[Number(rc[0])][Number(rc[1])]);
                 }
                 // controller.findEight();
+                var cost = {};
+                console.log(tempQueue);
                 console.log(priorityQueue);
-                // while (priorityQueue !== null) {
-                // }
             },
             move: function (e) {
                 // model.available[i] class ="slide"
