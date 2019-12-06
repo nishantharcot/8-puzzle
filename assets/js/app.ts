@@ -18,7 +18,18 @@
         '20' :  [gameSlides[3], gameSlides[7]],
         '21' :  [gameSlides[4], gameSlides[6], gameSlides[8]],  
         '22' :  [gameSlides[5], gameSlides[7]]
-      }
+      };
+      const liveNode = {
+        '00' : ['01', '10'],
+        '01' : ['00', '02', '11'],
+        '02' : ['01', '12'],
+        '10' : ['00', '11', '20'],
+        '11' : ['01', '10', '12', '21'],
+        '12' : ['02', '11', '22'],
+        '20' : ['10', '21'],
+        '21' : ['11', '20', '22'],
+        '22' : ['12', '21']
+      };
       const model = {
         available : neighbours['22'] as HTMLDivElement[],
         neighbours: neighbours,
@@ -26,6 +37,7 @@
         emptyColumn : 2,
         currentImageindex : '0',
         Moves : 0,
+        MovesCost : 0,
         OriginalSequence : [0, 1, 2, 3, 4, 5, 6, 7, 8],
         OriginalSequenceSimpleForm : [[0, 1, 2], [3, 4, 5], [6, 7, 8]],
         ProblemSequence : [0, 1, 2, 3, 4, 5, 6, 7, 8],
@@ -160,8 +172,33 @@
           const canvas = slide.children[0] as HTMLCanvasElement;
           canvas.click();
         },
+        findEight : () => {
+          for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+              if (model.ProblemSequenceSimpleForm[i][j] === 8) {
+                const row = i;
+                const col = j;
+                console.log(row, col);
+                return liveNode[String(row) + String(col)];
+                break;
+              }
+            }
+          }
+        },
         solve : (initial, row, col, final) => {
+          // Store live nodes
+          const tempQueue = controller.findEight();
+          const priorityQueue = [];
+          for (let i = 0; i < tempQueue.length; i++) {
+            const rc = tempQueue[i];
+            console.log(rc[0], rc[1]);
+            priorityQueue.push(model.ProblemSequenceSimpleForm[Number(rc[0])][Number(rc[1])]);
+          }
+          // controller.findEight();
+          console.log(priorityQueue);
+          // while (priorityQueue !== null) {
 
+          // }
         },
         move : (e: MouseEvent) => {
           // model.available[i] class ="slide"
@@ -214,8 +251,8 @@
                 }
                 model.ProblemSequenceSimpleForm.push(temp);
               }
-              console.log(model.ProblemSequence);
-              console.log(model.ProblemSequenceSimpleForm);              
+              // console.log(model.ProblemSequence);
+              // console.log(model.ProblemSequenceSimpleForm);              
 
               view.render()
             }

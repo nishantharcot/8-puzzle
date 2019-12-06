@@ -18,6 +18,17 @@
             '21': [gameSlides_1[4], gameSlides_1[6], gameSlides_1[8]],
             '22': [gameSlides_1[5], gameSlides_1[7]]
         };
+        var liveNode_1 = {
+            '00': ['01', '10'],
+            '01': ['00', '02', '11'],
+            '02': ['01', '12'],
+            '10': ['00', '11', '20'],
+            '11': ['01', '10', '12', '21'],
+            '12': ['02', '11', '22'],
+            '20': ['10', '21'],
+            '21': ['11', '20', '22'],
+            '22': ['12', '21']
+        };
         var model_1 = {
             available: neighbours_1['22'],
             neighbours: neighbours_1,
@@ -25,6 +36,7 @@
             emptyColumn: 2,
             currentImageindex: '0',
             Moves: 0,
+            MovesCost: 0,
             OriginalSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8],
             OriginalSequenceSimpleForm: [[0, 1, 2], [3, 4, 5], [6, 7, 8]],
             ProblemSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8],
@@ -95,7 +107,7 @@
                     shuffleContoller();
                 };
                 solveButton_1[0].onclick = function () {
-                    console.log(model_1.emptyRow, model_1.emptyColumn);
+                    // console.log(model.emptyRow, model.emptyColumn);
                     controller_1.solve(model_1.ProblemSequenceSimpleForm, model_1.emptyRow, model_1.emptyColumn, model_1.OriginalSequenceSimpleForm);
                 };
             }
@@ -150,7 +162,32 @@
                 var canvas = slide.children[0];
                 canvas.click();
             },
+            findEight: function () {
+                for (var i = 0; i < 3; i++) {
+                    for (var j = 0; j < 3; j++) {
+                        if (model_1.ProblemSequenceSimpleForm[i][j] === 8) {
+                            var row = i;
+                            var col = j;
+                            console.log(row, col);
+                            return liveNode_1[String(row) + String(col)];
+                            break;
+                        }
+                    }
+                }
+            },
             solve: function (initial, row, col, final) {
+                // Store live nodes
+                var tempQueue = controller_1.findEight();
+                var priorityQueue = [];
+                for (var i = 0; i < tempQueue.length; i++) {
+                    var rc = tempQueue[i];
+                    console.log(rc[0], rc[1]);
+                    priorityQueue.push(model_1.ProblemSequenceSimpleForm[Number(rc[0])][Number(rc[1])]);
+                }
+                // controller.findEight();
+                console.log(priorityQueue);
+                // while (priorityQueue !== null) {
+                // }
             },
             move: function (e) {
                 // model.available[i] class ="slide"
@@ -195,8 +232,8 @@
                             }
                             model_1.ProblemSequenceSimpleForm.push(temp);
                         }
-                        console.log(model_1.ProblemSequence);
-                        console.log(model_1.ProblemSequenceSimpleForm);
+                        // console.log(model.ProblemSequence);
+                        // console.log(model.ProblemSequenceSimpleForm);              
                         view_1.render();
                     }
                 }
