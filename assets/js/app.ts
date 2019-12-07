@@ -1,3 +1,4 @@
+
 (
   document.onreadystatechange = () => {
     if (document.readyState === 'complete') {
@@ -87,7 +88,7 @@
           }
 
           shuffleButton[0].onclick = () => {
-            let numberOfShuffles = 5 + Math.floor(Math.random() * 30);
+            let numberOfShuffles = 15 + Math.floor(Math.random() * 30);
             const shuffleContoller = () => {
               setTimeout(() => {
                 numberOfShuffles -= 1;
@@ -248,6 +249,7 @@
                 let temp = []
                 for (let j = 0; j < 3; j++) {
                   temp.push(model.ProblemSequence[3*i + j]);
+                  console.log(temp);
                 }
                 model.ProblemSequenceSimpleForm.push(temp);
               }
